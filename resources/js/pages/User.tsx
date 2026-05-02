@@ -1,4 +1,5 @@
 import { Link, router } from '@inertiajs/react';
+import Swal from 'sweetalert2';
 import MainLayout from '@/layouts/MainLayout';
 
 type UserType = {
@@ -8,11 +9,29 @@ type UserType = {
 };
 
 export default function User({ users }: { users: UserType[] }) {
-    const deleteUser = (id: number) => {
-        if (confirm('Are you sure you want to delete this user?')) {
-            router.delete(`/users/${id}`);
+const deleteUser = (id: number) => {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "This user will be deleted permanently!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result: { isConfirmed: boolean }) => {
+        if (result.isConfirmed) {
+            router.delete(`/users/${id}`, {
+                onSuccess: () => {
+                    Swal.fire(
+                        'Deleted!',
+                        'User has been deleted.',
+                        'success'
+                    );
+                }
+            });
         }
-    };
+    });
+};
 
     return (
         <div className="mx-auto max-w-6xl p-6">
@@ -48,13 +67,13 @@ export default function User({ users }: { users: UserType[] }) {
                     {/* Body */}
                     <tbody className="divide-y divide-gray-200">
                         {users?.length > 0 ? (
-                            users.map((user) => (
+                            users.map((user, index) => (
                                 <tr
                                     key={user.id}
                                     className="transition even:bg-gray-50 hover:bg-gray-50"
                                 >
                                     <td className="px-6 py-4 text-sm text-gray-700">
-                                        {user.id}
+                                        {index + 1}
                                     </td>
 
                                     <td className="px-6 py-4 text-sm font-medium text-gray-800">
