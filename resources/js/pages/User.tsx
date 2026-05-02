@@ -1,5 +1,5 @@
-import { Link, router } from "@inertiajs/react";
-import MainLayout from "@/layouts/MainLayout";
+import { Link, router } from '@inertiajs/react';
+import MainLayout from '@/layouts/MainLayout';
 
 type UserType = {
     id: number;
@@ -8,33 +8,27 @@ type UserType = {
 };
 
 export default function User({ users }: { users: UserType[] }) {
-
     const deleteUser = (id: number) => {
-        if (confirm("Are you sure you want to delete this user?")) {
+        if (confirm('Are you sure you want to delete this user?')) {
             router.delete(`/users/${id}`);
         }
     };
 
     return (
-        <div className="max-w-6xl mx-auto p-6">
-
+        <div className="mx-auto max-w-6xl p-6">
             {/* Heading */}
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold text-gray-800">
-                    Users List
-                </h1>
+            <div className="mb-6 flex items-center justify-between">
+                <h1 className="text-3xl font-bold text-gray-800">Users List</h1>
             </div>
 
             {/* Table */}
-            <div className="overflow-x-auto bg-white shadow rounded-lg">
-
+            <div className="overflow-x-auto rounded-lg bg-white shadow">
                 <table className="min-w-full divide-y divide-gray-200">
-
                     {/* Head */}
                     <thead className="bg-gray-100">
                         <tr>
                             <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-                                ID
+                                Sr No.
                             </th>
 
                             <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
@@ -53,11 +47,12 @@ export default function User({ users }: { users: UserType[] }) {
 
                     {/* Body */}
                     <tbody className="divide-y divide-gray-200">
-
                         {users?.length > 0 ? (
                             users.map((user) => (
-                                <tr key={user.id} className="hover:bg-gray-50 transition">
-
+                                <tr
+                                    key={user.id}
+                                    className="transition even:bg-gray-50 hover:bg-gray-50"
+                                >
                                     <td className="px-6 py-4 text-sm text-gray-700">
                                         {user.id}
                                     </td>
@@ -70,8 +65,7 @@ export default function User({ users }: { users: UserType[] }) {
                                         {user.email}
                                     </td>
 
-                                    <td className="px-6 py-4 text-right space-x-3">
-
+                                    <td className="space-x-3 px-6 py-4 text-right">
                                         <Link
                                             href={`/users/${user.id}/edit`}
                                             className="text-blue-600 hover:underline"
@@ -85,7 +79,6 @@ export default function User({ users }: { users: UserType[] }) {
                                         >
                                             Delete
                                         </button>
-
                                     </td>
                                 </tr>
                             ))
@@ -99,15 +92,11 @@ export default function User({ users }: { users: UserType[] }) {
                                 </td>
                             </tr>
                         )}
-
                     </tbody>
-
                 </table>
             </div>
         </div>
     );
 }
 
-User.layout = (page: React.ReactNode) => (
-    <MainLayout>{page}</MainLayout>
-);
+User.layout = (page: React.ReactNode) => <MainLayout>{page}</MainLayout>;
